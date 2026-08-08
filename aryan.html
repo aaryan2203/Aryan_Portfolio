@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Argon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0912;
+    --bg-2: #120f1e;
+    --ink: #f1edff;
+    --muted: #8d86ad;
+    --accent: #9b8cff;
+    --accent-deep: #5b4fe0;
+    --accent-glow: #d7cfff;
+    --line: rgba(155,140,255,0.18);
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background: radial-gradient(120% 90% at 50% 0%, var(--bg-2) 0%, var(--bg) 55%);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    overflow-x:hidden;
+    min-height:100vh;
+  }
+
+  /* ---------- header ---------- */
+  .head{
+    position: fixed;
+    top:0; left:0; right:0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding: 28px clamp(20px, 5vw, 56px);
+    z-index: 20;
+    mix-blend-mode: difference;
+  }
+
+  .mark{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.85rem;
+    letter-spacing:0.08em;
+    color: var(--ink);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+
+  .mark span{ color: var(--accent); }
+
+  .nav-links{
+    display:flex;
+    gap: 28px;
+    font-size:0.8rem;
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing:0.05em;
+  }
+
+  .nav-links a{
+    color: var(--muted);
+    text-decoration:none;
+    transition: color .25s ease;
+  }
+  .nav-links a:hover{ color: var(--ink); }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    min-height:100svh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding: 120px 24px 160px;
+  }
+
+  .infinity-wrap{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    pointer-events:none;
+    opacity: 0.9;
+  }
+
+  .infinity-wrap svg{
+    width:min(1100px, 150vw);
+    height:auto;
+  }
+
+  .content{
+    position:relative;
+    z-index:2;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:18px;
+  }
+
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.75rem;
+    letter-spacing:0.22em;
+    color: var(--muted);
+    border:1px solid var(--line);
+    padding:6px 14px;
+    border-radius:100px;
+    background: rgba(155,140,255,0.05);
+  }
+
+  .eyebrow b{ color:var(--accent-glow); font-weight:500; }
+
+  h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size: clamp(3.2rem, 12vw, 8rem);
+    letter-spacing: -0.02em;
+    line-height:0.95;
+    background: linear-gradient(180deg, var(--ink) 0%, var(--accent-glow) 55%, var(--accent) 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    filter: drop-shadow(0 0 40px rgba(155,140,255,0.25));
+  }
+
+  .tagline{
+    font-size: clamp(0.95rem, 2vw, 1.15rem);
+    color: var(--muted);
+    max-width: 480px;
+    font-weight:400;
+    line-height:1.6;
+  }
+
+  .role{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.8rem;
+    letter-spacing:0.05em;
+    color: var(--accent);
+    margin-top: 4px;
+  }
+
+  .scroll-cue{
+    position:absolute;
+    bottom: 130px;
+    left:50%;
+    transform: translateX(-50%);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.7rem;
+    letter-spacing:0.15em;
+    color: var(--muted);
+    z-index:2;
+  }
+
+  .scroll-cue .line{
+    width:1px; height:34px;
+    background: linear-gradient(var(--accent), transparent);
+    animation: pulse-line 2.2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-line{
+    0%,100%{ transform: scaleY(0.6); opacity:0.4; }
+    50%{ transform: scaleY(1); opacity:1; }
+  }
+
+  /* ---------- social dock ---------- */
+  .social-links{
+    position: fixed;
+    bottom: 32px;
+    left:50%;
+    transform: translateX(-50%);
+    z-index: 30;
+    display:flex;
+    gap: 6px;
+    padding: 10px;
+    border-radius: 100px;
+    background: rgba(18,15,30,0.55);
+    border:1px solid var(--line);
+    backdrop-filter: blur(14px);
+  }
+
+  .social-links a{
+    width:42px; height:42px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    color: var(--muted);
+    transition: color .25s ease, background .25s ease, transform .25s ease;
+  }
+
+  .social-links a svg{ width:19px; height:19px; }
+
+  .social-links a:hover{
+    color: var(--ink);
+    background: rgba(155,140,255,0.15);
+    transform: translateY(-3px);
+  }
+
+  .social-links a:focus-visible{
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* ---------- about ---------- */
+  .about{
+    position:relative;
+    z-index:2;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 40px 24px 200px;
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+    opacity:0;
+    transform: translateY(24px);
+    transition: opacity .8s ease, transform .8s ease;
+  }
+
+  .about.in-view{ opacity:1; transform:translateY(0); }
+
+  .about .label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.75rem;
+    letter-spacing:0.15em;
+    color: var(--accent);
+  }
+
+  .about p{
+    font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+    line-height:1.6;
+    color: var(--ink);
+    font-weight:400;
+  }
+
+  .about p.muted{
+    color: var(--muted);
+    font-size: 1rem;
+  }
+
+  .about .avatar{
+    width:72px; height:72px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    object-fit:cover;
+    background: var(--bg-2);
+  }
+
+  @media (max-width: 560px){
+    .head{ padding: 20px 18px; }
+    .nav-links{ display:none; }
+    .social-links{ bottom:20px; }
+    .about{ padding-bottom: 160px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.001s !important; animation-iteration-count: 1 !important; transition-duration: 0.2s !important; }
+  }
+</style>
+</head>
+<body class="body">
+
+  <div class="head">
+    <div class="mark"><span>Argon</span> ·</div>
+    <nav class="nav-links">
+      <a href="#about">About</a>
+      <a href="#" >Work</a>
+      <a href="mailto:you@example.com">Contact</a>
+    </nav>
+  </div>
+
+  <section class="hero">
+    <div class="infinity-wrap" aria-hidden="true">
+      <svg id="infinitySvg" viewBox="0 0 800 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="tubeGrad" x1="0" y1="0" x2="800" y2="400" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#5b4fe0"/>
+            <stop offset="50%" stop-color="#9b8cff"/>
+            <stop offset="100%" stop-color="#d7cfff"/>
+          </linearGradient>
+          <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+            <feGaussianBlur stdDeviation="7" result="blur1"/>
+            <feMerge>
+              <feMergeNode in="blur1"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+          <filter id="sparkGlow" x="-200%" y="-200%" width="500%" height="500%">
+            <feGaussianBlur stdDeviation="5"/>
+          </filter>
+        </defs>
+
+        <!-- glass tube base -->
+        <path d="M400,200 C400,120 320,60 240,60 C140,60 60,140 60,200 C60,260 140,340 240,340 C320,340 400,280 400,200 C400,120 480,60 560,60 C660,60 740,140 740,200 C740,260 660,340 560,340 C480,340 400,280 400,200 Z"
+          stroke="var(--line)" stroke-width="10" stroke-linecap="round"/>
+
+        <!-- animated plasma flow -->
+        <path id="flowPath"
+          d="M400,200 C400,120 320,60 240,60 C140,60 60,140 60,200 C60,260 140,340 240,340 C320,340 400,280 400,200 C400,120 480,60 560,60 C660,60 740,140 740,200 C740,260 660,340 560,340 C480,340 400,280 400,200 Z"
+          stroke="url(#tubeGrad)" stroke-width="4.5" stroke-linecap="round" filter="url(#glow)"/>
+
+        <!-- traveling spark -->
+        <circle r="6" fill="var(--accent-glow)" filter="url(#sparkGlow)">
+          <animateMotion dur="7s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#flowPath"/>
+          </animateMotion>
+        </circle>
+      </svg>
+    </div>
+
+    <div class="content">
+      <div class="eyebrow">PORTFOLIO OF <b>ARGON</b></div>
+      <h1>ARGON</h1>
+      <p class="tagline">I'm a developer passionate about creating impactful digital solutions through Web Development, Cybersecurity, and AI. Skilled in Python, C, and C++, I'm constantly exploring new technologies, building projects, and learning modern development practices. My goal is to create secure, efficient, and innovative applications that solve real-world problems.</p><br><br><br><br>
+      <div class="role">Web Development • Cybersecurity • AI & Machine Learning • Open Source • Software Development</div>
+    </div>
+
+    <div class="scroll-cue">
+      <span>SCROLL</span>m
+      <div class="line"></div>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="label">ABOUT</div>
+    <div class="img"><img class="avatar" src="#" alt="Portrait" onerror="this.style.display='none'"></div>
+    <p>I believe in learning by building, which is why I actively work on personal projects and explore new technologies to strengthen my problem-solving and development skills.</p>
+    <p class="muted">I am always looking for opportunities to collaborate, contribute to open-source projects, and gain hands-on experience in software development, cybersecurity, and AI.</p>
+  </section>
+
+  <div class="social-links">
+    <a href="https://github.com/aaryan2203" target="_blank" rel="noopener" aria-label="GitHub">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.5 0 12.3c0 5.44 3.44 10.05 8.21 11.68.6.11.82-.27.82-.6 0-.29-.01-1.06-.02-2.08-3.34.75-4.04-1.65-4.04-1.65-.55-1.44-1.34-1.82-1.34-1.82-1.09-.77.08-.75.08-.75 1.21.09 1.85 1.28 1.85 1.28 1.07 1.87 2.8 1.33 3.49 1.02.11-.79.42-1.33.76-1.64-2.67-.31-5.47-1.38-5.47-6.14 0-1.36.47-2.46 1.24-3.33-.12-.31-.54-1.57.12-3.27 0 0 1.01-.33 3.3 1.27a11.3 11.3 0 0 1 6 0c2.29-1.6 3.3-1.27 3.3-1.27.66 1.7.24 2.96.12 3.27.77.87 1.24 1.97 1.24 3.33 0 4.77-2.81 5.82-5.49 6.13.43.38.82 1.13.82 2.28 0 1.65-.01 2.98-.01 3.38 0 .33.21.72.83.6C20.57 22.34 24 17.74 24 12.3 24 5.5 18.63 0 12 0Z"/></svg>
+    </a>
+    <a href="https://linkedin.com/in/aaryan2203" target="_blank" rel="noopener" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.61 0 4.28 2.38 4.28 5.47v6.27ZM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14ZM7.12 20.45H3.56V9h3.56v11.45Z"/></svg>
+    </a>
+    <a href="argon.developer2206@gmail.com" aria-label="Email">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="2.5" y="5" width="19" height="14" rx="2.2"/><path d="M3 6.5 12 13l9-6.5"/></svg>
+    </a>
+    <a href="https://instagram.com/_aaryan2203" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.35" cy="6.65" r="1.1" fill="currentColor" stroke="none"/></svg>
+    </a>
+  </div>
+
+<script>
+  // Respect reduced motion: pause SVG SMIL animations
+  const svg = document.getElementById('infinitySvg');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion && svg.pauseAnimations) svg.pauseAnimations();
+
+  // Drive the plasma-flow dash animation with the path's real length for a seamless loop
+  const flowPath = document.getElementById('flowPath');
+  const len = flowPath.getTotalLength();
+  flowPath.style.strokeDasharray = (len * 0.14) + ' ' + (len * 0.86);
+
+  let offset = 0;
+  function animateFlow(t){
+    if (!reduceMotion){
+      offset = (t / 18) % len;
+      flowPath.style.strokeDashoffset = -offset;
+    }
+    requestAnimationFrame(animateFlow);
+  }
+  requestAnimationFrame(animateFlow);
+
+  // Fade the about section in on scroll
+  const about = document.querySelector('.about');
+  if ('IntersectionObserver' in window && !reduceMotion){
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) about.classList.add('in-view'); });
+    }, { threshold: 0.2 });
+    io.observe(about);
+  } else {
+    about.classList.add('in-view');
+  }
+</script>
+
+</body>
+</html>
